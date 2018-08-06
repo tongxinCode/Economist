@@ -5,6 +5,7 @@ import urllib2
 import requests
 import re
 from lxml import etree
+from apitranslator import requests_for_dst
 
 def StringListSave(save_path, filename, slist):
     if not os.path.exists(save_path):
@@ -12,7 +13,8 @@ def StringListSave(save_path, filename, slist):
     path = save_path+"/"+filename+".txt"
     with open(path, "w+") as fp:
         for s in slist:
-            fp.write("%s\n%s\nhttps://www.economist.com/%s\n\n" % (s[0].encode("utf8"), s[1].encode("utf8"),s[2].encode("utf8")))
+            fp.write("%s\n%s\n%s\n%s\nhttps://www.economist.com%s\n\n" % (requests_for_dst(s[0]).encode("utf8"),\
+             s[0].encode("utf-8"),requests_for_dst(s[1]).encode("utf8"),s[1].encode("utf-8"),s[2].encode("utf8")))
 
 def Page_Info(myPage):
 	dom=etree.HTML(myPage)
